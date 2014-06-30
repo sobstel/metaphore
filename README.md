@@ -6,7 +6,7 @@ PHP cache slam defense using (memcached) semaphore to prevent dogpile effect / c
 Problem
 -------
 
-Too many requests hit your website to regenerate same content slamming your database.
+Too many requests hit your website at the same time to regenerate same content slamming your database.
 
 More reading:
 
@@ -17,7 +17,7 @@ More reading:
 Solution
 --------
 
-First process generates new content while all the others get stale content (from cache) until new one is re-generated.
+First request generates new content while all the subsequent requests get (stale) content from cache until new one is re-generated.
 
 Similar solutions:
 
