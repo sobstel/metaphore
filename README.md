@@ -22,7 +22,7 @@ First request generates new content while all the subsequent requests get (stale
 Similar solutions:
 
 * [Varnish - Grace](https://www.varnish-cache.org/trac/wiki/VCLExampleGrace)
-* [LSDCache](https://github.com/gsmlabs/LSDCache) - metaphore is lightweight version of lsdcache (inmho lsdcache grew too big and metaphore focuses on just one thing to do it well)
+* [LSDCache](https://github.com/gsmlabs/LSDCache) - this lib is lightweight version of lsdcache (imho lsdcache grew too big into multi-purpose cache library while metaphore strives to be simple to do just one thing and to do it well)
 
 Usage
 -----
