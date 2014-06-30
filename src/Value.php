@@ -17,12 +17,12 @@ class Value
         return $this->result;
     }
 
-    public function isFresh($now_timestamp = null)
+    public function isStale($now_timestamp = null)
     {
         if (!$now_timestamp) {
             $now_timestamp = time();
         }
 
-        return ($now_timestamp <= $this->expiration_timestamp);
+        return ($now_timestamp > $this->expiration_timestamp);
     }
 }

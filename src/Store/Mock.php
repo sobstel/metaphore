@@ -1,15 +1,11 @@
 <?php
 namespace Metaphore\Store;
 
-use Metaphore\Store\StoreInterface;
-use Metaphore\Value;
-
 class Mock implements StoreInterface
 {
     protected $values = [];
-    protected $locks = [];
 
-    public function set($key, Value $value, $ttl)
+    public function set($key, $value, $ttl)
     {
         $this->values[$key] = $value;
         return true;
@@ -24,7 +20,7 @@ class Mock implements StoreInterface
         return $this->values[$key];
     }
 
-    public function add($key, Value $value, $ttl)
+    public function add($key, $value, $ttl)
     {
         if (isset($this->values[$key])) {
             return false;

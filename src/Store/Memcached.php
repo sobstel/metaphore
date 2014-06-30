@@ -2,7 +2,6 @@
 namespace Metaphore\Store;
 
 use Metaphore\Store\StoreInterface;
-use Metaphore\Value;
 
 class Memcached implements StoreInterface
 {
@@ -21,7 +20,7 @@ class Memcached implements StoreInterface
         $this->memcached = $memcached;
     }
 
-    public function set($key, Value $value, $ttl)
+    public function set($key, $value, $ttl)
     {
         return $this->memcached->set($this->prepareTtl($key), $value, $this->prepareTtl($ttl));
     }
@@ -31,7 +30,7 @@ class Memcached implements StoreInterface
         return $this->memcached->get($this->prepareKey($key));
     }
 
-    public function add($key, Value $value, $ttl)
+    public function add($key, $value, $ttl)
     {
         return $this->memcached->add($this->prepareTtl($key), $value, $this->prepareTtl($ttl));
     }
@@ -43,16 +42,17 @@ class Memcached implements StoreInterface
 
     protected function prepareKey($key)
     {
-        if ($key > self::MAX_KEY_LENGTH) {
-            $key = sha1($key);
+        if (strlen($key) > self::MAX_KEY_LENGTH) {
+            $key = substr($key, 0, (self::MAX_KEY_LENGTH - 43)).'___'.sha1($key);
         }
 
         return $key;
     }
 
-    protected function prepareTtl($ttl) {
+    protected function prepareTtl($ttl)
+    {
         if ($ttl > self::MAX_TTL) {
-            return (time() + $ttl); // timestamp must be passed if higher than MAX_TTL
+            return (time() + $ttl); // actual timestamp must be passed if higher than MAX_TTL
         }
 
         return $ttl;

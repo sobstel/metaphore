@@ -1,11 +1,37 @@
 metaphore
 =========
 
-PHP cache library with semaphore (locks to prevent dogpile effect / clobbering updates / stampending requests). Slam defense.
+PHP cache slam defense using (memcached) semaphore to prevent dogpile effect / clobbering updates / stampending requests / stampending herd.
 
-It's an effort to simplify and focus only on core functionality of LSDCache library (https://github.com/gsmlabs/LSDCache).
+Problem
+-------
 
-Deadlock
+Too many requests hit your website to regenerate same content slamming your database.
+
+More reading:
+
+* https://code.google.com/p/memcached/wiki/NewProgrammingTricks#Avoiding_stampeding_herd
+* http://www.php.net/manual/en/mysqlnd-qc.slam-defense.php
+* https://www.varnish-cache.org/trac/wiki/VCLExampleGrace
+
+Solution
 --------
 
-Deadlock = locked (lock already acquired by other reqeust), but no stale content to serve
+First process generates new content while all the others get stale content (from cache) until new one is re-generated.
+
+Similar solutions:
+
+* [Varnish - Grace](https://www.varnish-cache.org/trac/wiki/VCLExampleGrace)
+* [LSDCache](https://github.com/gsmlabs/LSDCache) - metaphore is lightweight version of lsdcache (inmho lsdcache grew too big and metaphore focuses on just one thing to do it well)
+
+Usage
+-----
+
+``` php
+use Metaphore\Cache;
+
+$cache = new Cache($memcached);
+$cache->cache($key, function(){
+    // generate content
+}, $ttl);
+```

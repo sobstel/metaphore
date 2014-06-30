@@ -2,7 +2,10 @@
     "name": "sobstel/metaphore",
     "type": "library",
     "autoload": {
-        "psr-0": { "Metaphore\\": "src/" }
+        "psr-4": {
+            "Metaphore\\Tests\\": "tests/src/",
+            "Metaphore\\": "src/"
+        }
     },
     "require": {
         "php": ">=5.4.0"
