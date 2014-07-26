@@ -3,20 +3,11 @@ metaphore
 
 PHP cache slam defense using (memcached) semaphore to prevent dogpile effect (aka clobbering updates, stampending herd or Slashdot effect).
 
-Problem
--------
+Problem: too many requests hit your website at the same time to regenerate same content slamming your database. It might happen after the cache was expired.
 
-Too many requests hit your website at the same time to regenerate same content slamming your database.
+Solution: first request generates new content while all the subsequent requests get (stale) content from cache until it's refreshed by the first request.
 
-Solution
---------
-
-First request generates new content while all the subsequent requests get (stale) content from cache until new one is re-generated.
-
-Similar solutions:
-
-* [Varnish - Grace](https://www.varnish-cache.org/trac/wiki/VCLExampleGrace)
-* [LSDCache](https://github.com/gsmlabs/LSDCache) - this lib is lightweight version of lsdcache (imho lsdcache grew too big into multi-purpose cache library while metaphore strives to be simple to do just one thing and to do it well)
+Read (http://www.sobstel.org/blog/preventing-dogpile-effect/)[http://www.sobstel.org/blog/preventing-dogpile-effect/] for more details.
 
 Usage
 -----
