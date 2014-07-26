@@ -1,13 +1,23 @@
 {
     "name": "sobstel/metaphore",
     "type": "library",
+    "description": "PHP cache slam defense using (memcached) semaphore to prevent dogpile effect / clobbering updates / stampending requests.",
+    "keywords": ["cache"],
+    "homepage": "https://github.com/sobstel/metaphore",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Przemek Sobstel",
+            "email": "przemek@sobstel.org"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.0"
+    },
     "autoload": {
         "psr-4": {
             "Metaphore\\Tests\\": "tests/src/",
             "Metaphore\\": "src/"
         }
-    },
-    "require": {
-        "php": ">=5.4.0"
     }
 }
