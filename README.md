@@ -1,18 +1,12 @@
 metaphore
 =========
 
-PHP cache slam defense using (memcached) semaphore to prevent dogpile effect (aka clobbering updates or stampending herd).
+PHP cache slam defense using (memcached) semaphore to prevent dogpile effect (aka clobbering updates, stampending herd or Slashdot effect).
 
 Problem
 -------
 
 Too many requests hit your website at the same time to regenerate same content slamming your database.
-
-More reading:
-
-* https://code.google.com/p/memcached/wiki/NewProgrammingTricks#Avoiding_stampeding_herd
-* http://www.php.net/manual/en/mysqlnd-qc.slam-defense.php
-* https://www.varnish-cache.org/trac/wiki/VCLExampleGrace
 
 Solution
 --------
@@ -27,8 +21,20 @@ Similar solutions:
 Usage
 -----
 
+In composer.json file:
+
+```
+"require": {
+	"sobstel/metaphore": "dev-master"
+}
+```
+
+In your PHP file:
+
 ``` php
 use Metaphore\Cache;
+
+// initialize $memcached object (new Memcached())
 
 $cache = new Cache($memcached);
 $cache->cache($key, function(){
