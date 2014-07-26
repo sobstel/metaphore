@@ -25,4 +25,9 @@ class Value
 
         return ($now_timestamp > $this->expiration_timestamp);
     }
+
+    public function __toString()
+    {
+        return $this->getResult();
+    }
 }
