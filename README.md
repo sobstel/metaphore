@@ -7,7 +7,7 @@ Problem: too many requests hit your website at the same time to regenerate same 
 
 Solution: first request generates new content while all the subsequent requests get (stale) content from cache until it's refreshed by the first request.
 
-Read (http://www.sobstel.org/blog/preventing-dogpile-effect/)[http://www.sobstel.org/blog/preventing-dogpile-effect/] for more details.
+Read [http://www.sobstel.org/blog/preventing-dogpile-effect/](http://www.sobstel.org/blog/preventing-dogpile-effect/) for more details.
 
 Usage
 -----
