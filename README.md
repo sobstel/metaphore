@@ -1,7 +1,7 @@
 metaphore
 =========
 
-PHP cache slam defense using (memcached) semaphore to prevent dogpile effect / clobbering updates / stampending requests / stampending herd.
+PHP cache slam defense using (memcached) semaphore to prevent dogpile effect (aka clobbering updates or stampending herd).
 
 Problem
 -------
