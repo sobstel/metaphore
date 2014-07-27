@@ -11,7 +11,7 @@ class Cache
     protected $store;
 
     /*** @var int How long to serve stale content while new one is being generated */
-    protected $grace_ttl = 3600;
+    protected $grace_ttl = 60;
 
     /**
      * @param \Memcached|\Metaphore\Store\StoreInterface
