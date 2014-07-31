@@ -9,6 +9,8 @@ Solution: first request generates new content while all the subsequent requests 
 
 Read [http://www.sobstel.org/blog/preventing-dogpile-effect/](http://www.sobstel.org/blog/preventing-dogpile-effect/) for more details.
 
+Metaphore is rewrite of [https://github.com/gsmlabs/LSDCache](LSDCache), which has been successfully used in many high-traffic production web apps. I just believe that LSDCache has grown too big into multi-purpose cache library while metaphore strives to be simple to do just one thing and to do it well.
+
 Usage
 -----
 
