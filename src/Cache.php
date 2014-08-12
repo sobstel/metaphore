@@ -105,7 +105,7 @@ class Cache
         // educated guess (remove lock early enough so if anything goes wrong
         // with first process, another one can pick up)
         // SMELL: a bit problematic, why $grace_ttl/2 ???
-        $lock_ttl = (int)($grace_ttl/2);
+        $lock_ttl = max(1, (int)($grace_ttl/2));
 
         return $this->store->add($this->prepareLockKey($key), 1, $lock_ttl);
     }
