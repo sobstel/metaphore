@@ -26,10 +26,11 @@ In your PHP file:
 
 ``` php
 use Metaphore\Cache;
+use Metaphore\Store\MemcachedStore;
 
 // initialize $memcached object (new Memcached())
 
-$cache = new Cache($memcached);
+$cache = new Cache(new MemcachedStore($memcached));
 $cache->cache($key, function(){
     // generate content
 }, $ttl);
