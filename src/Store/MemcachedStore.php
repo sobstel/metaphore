@@ -1,9 +1,10 @@
 <?php
 namespace Metaphore\Store;
 
-use Metaphore\Store\StoreInterface;
+use Metaphore\Store\ValueStoreInterface;
+use Metaphore\Store\LockStoreInterface;
 
-class Memcached implements StoreInterface
+class Memcached implements ValueStoreInterface, LockStoreInterface
 {
     // over some threshold, it's treated as timestamp (and not ttl)
     // http://www.php.net/manual/en/memcached.expiration.php

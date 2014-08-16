@@ -1,7 +1,10 @@
 <?php
 namespace Metaphore\Store;
 
-class Mock implements StoreInterface
+use Metaphore\Store\ValueStoreInterface;
+use Metaphore\Store\LockStoreInterface;
+
+class MockStore implements ValueStoreInterface, LockStoreInterface
 {
     protected $values = [];
 
