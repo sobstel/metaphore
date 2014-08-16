@@ -82,7 +82,7 @@ class Cache
             return $value->getResult();
         }
 
-        return false;
+        return $value;
     }
 
     public function delete($key)
