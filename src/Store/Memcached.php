@@ -16,7 +16,8 @@ class Memcached implements StoreInterface
     /*** @var $memcached */
     protected $memcached;
 
-    public function __construct(\Memcached $memcached) {
+    public function __construct(\Memcached $memcached)
+    {
         $this->memcached = $memcached;
     }
 
