@@ -41,7 +41,15 @@ class Cache
     {
         $value = $this->valueStore->get($key);
 
-        if ($this->isValue($value) && !$value->isStale()) {
+        if (!$this->isValue($value)) { // if not proper Metaphore\Value object...
+            if ($value) { // ...return current result/value if present
+                return $value;
+            }
+            // ...create fake expired value object for convenience (to avoid additional checks later)
+            $value = new Value($value, -1);
+        }
+
+        if (!$value->isStale()) {
             return $value->getResult();
         }
 
@@ -51,10 +59,12 @@ class Cache
 
         $lock_acquired = $this->lockManager->acquire($key, $ttl->getLockTtl());
 
-        if (!$lock_acquired && $this->isValue($value)) {
+        if (!$lock_acquired) {
             // serve stale if present
             return $value->getResult();
         }
+
+        // TODO: onNoStaleCache listener for case when lock has been acquired but there's not stale value to serve
 
         $result = call_user_func($callable);
 
