@@ -2,7 +2,7 @@
 namespace Metaphore;
 
 use Metaphore\Cache;
-use Metaphore\Store\Mock as MockStore;
+use Metaphore\Store\MockStore;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,9 +36,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($ret_val, $result_stale);
 
         // simulate lock (other process generating content)
-        $acquire_lock_method = new \ReflectionMethod($this->cache, 'acquireLock');
-        $acquire_lock_method->setAccessible(true);
-        $acquire_lock_method->invoke($this->cache, $key, 30);
+        $this->cache->getLockManager()->acquire($key, 30);
 
         // try to cache new (but stale value should be returned as lock is acquired earlier)
         $ret_val = $this->cache->cache($key, $this->createFunc($result_new), -1);
@@ -46,9 +44,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($ret_val, $result_stale);
 
         // release lock and try to cache new value again
-        $release_lock_method = new \ReflectionMethod($this->cache, 'releaseLock');
-        $release_lock_method->setAccessible(true);
-        $release_lock_method->invoke($this->cache, $key);
+        $this->cache->getLockManager()->release($key);
 
         $ret_val = $this->cache->cache($key, $this->createFunc($result_new), -1);
 
