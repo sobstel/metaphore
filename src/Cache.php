@@ -4,6 +4,8 @@ namespace Metaphore;
 use Metaphore\Value;
 use Metaphore\Store\ValueStoreInterface;
 use Metaphore\Ttl;
+use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class Cache
 {
@@ -12,6 +14,8 @@ class Cache
 
     /*** @var \Metaphore\LockManager */
     protected $lockManager;
+
+    protected $eventDispatcher;
 
     /**
      * @param \Metaphore\Store\ValueStoreInterface
@@ -25,6 +29,8 @@ class Cache
             $lockManager = new LockManager($valueStore);
         }
         $this->lockManager = $lockManager;
+
+        $this->eventDispatcher = new EventDispatcher();
     }
 
     /**
@@ -60,11 +66,23 @@ class Cache
         $lock_acquired = $this->lockManager->acquire($key, $ttl->getLockTtl());
 
         if (!$lock_acquired) {
-            // serve stale if present
-            return $value->getResult();
-        }
+            if ($value->getResult() !== false) { // serve stale if present
+                return $value->getResult();
+            }
 
-        // TODO: onNoStaleCache listener for case when lock has been acquired but there's not stale value to serve
+            $this->getEventDispatcher()->dispatch(
+                'NO_STALE_CACHE',
+                new GenericEvent(
+                    $this,
+                    [
+                        'key' => $key,
+                        'callable' => $callable,
+                        'ttl' => $ttl,
+                        'value' => $value,
+                    ]
+                )
+            );
+        }
 
         $result = call_user_func($callable);
 
@@ -104,6 +122,11 @@ class Cache
     public function getLockManager()
     {
         return $this->lockManager;
+    }
+
+    public function getEventDispatcher()
+    {
+        return $this->eventDispatcher;
     }
 
     protected function isValue($value)
