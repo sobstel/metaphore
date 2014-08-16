@@ -28,14 +28,9 @@ class LockManager
         return sprintf('%s.lock', $key);
     }
 
-    public function acquire($key, $grace_ttl)
+    public function acquire($key, $lockTtl)
     {
-        // educated guess (remove lock early enough so if anything goes wrong
-        // with first process, another one can pick up)
-        // SMELL: a bit problematic, why $grace_ttl/2 ???
-        $lock_ttl = max(1, (int)($grace_ttl/2));
-
-        $result = $this->lockStore->add($this->prepareLockKey($key), 1, $lock_ttl);
+        $result = $this->lockStore->add($this->prepareLockKey($key), 1, $lockTtl);
 
         if ($result) {
             $this->acquiredLocks[$key] = true;

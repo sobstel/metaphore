@@ -3,7 +3,7 @@ namespace Metaphore;
 
 use Metaphore\Value;
 use Metaphore\Store\ValueStoreInterface;
-use Metaphore\Store\Memcached as MemcachedStore;
+use Metaphore\Ttl;
 
 class Cache
 {
@@ -12,9 +12,6 @@ class Cache
 
     /*** @var \Metaphore\LockManager */
     protected $lockManager;
-
-    /*** @var int How long to serve stale content while new one is being generated */
-    protected $grace_ttl = 60;
 
     /**
      * @param \Metaphore\Store\ValueStoreInterface
@@ -30,18 +27,12 @@ class Cache
         $this->lockManager = $lockManager;
     }
 
-    public function setGraceTtl($grace_ttl)
-    {
-        $this->grace_ttl = $grace_ttl;
-    }
-
     /**
      * @param string
      * @param callable
-     * @param int
-     * @param int
+     * @param int|\Metaphore\Ttl
      */
-    public function cache($key, callable $callable, $ttl, $grace_ttl = null)
+    public function cache($key, callable $callable, $ttl)
     {
         $value = $this->valueStore->get($key);
 
@@ -49,11 +40,11 @@ class Cache
             return $value->getResult();
         }
 
-        if (!$grace_ttl) {
-            $grace_ttl = $this->grace_ttl;
+        if (!($ttl instanceof Ttl)) {
+            $ttl = new Ttl($ttl);
         }
 
-        $lock_acquired = $this->lockManager->acquire($key, $grace_ttl);
+        $lock_acquired = $this->lockManager->acquire($key, $ttl->getLockTtl());
 
         if (!$lock_acquired && $this->isValue($value)) {
             // serve stale if present
@@ -62,11 +53,10 @@ class Cache
 
         $result = call_user_func($callable);
 
-        $expiration_timestamp = time() + $ttl;
+        $expiration_timestamp = time() + $ttl->getTtl();
         $value = new Value($result, $expiration_timestamp);
 
-        $real_ttl = $ttl + $grace_ttl; // $grace_ttl added, so stale result might be served if needed
-        $this->valueStore->set($key, $value, $real_ttl);
+        $this->valueStore->set($key, $value, $ttl->getRealTtl());
 
         if ($lock_acquired) {
             $this->lockManager->release($key);
