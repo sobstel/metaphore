@@ -19,7 +19,6 @@ class LockManager
         // release lock that have been acquired but not released for some reason
         foreach ($this->acquiredLocks as $key => $true) {
             $this->release($key);
-            unset($this->acquiredLocks[$key]);
         }
     }
 
