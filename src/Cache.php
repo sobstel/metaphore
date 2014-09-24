@@ -36,12 +36,12 @@ class Cache
     /**
      * Cache specified closure/method/function for specified time.
      *
-     * As a third argument - instead of integer - you can pass Ttt object to 
+     * As a third argument - instead of integer - you can pass Ttt object to
      * define grace tll and lock ttl (both optional).
      *
      * @param string
      * @param callable
-     * @param int|\Metaphore\Ttl 
+     * @param int|\Metaphore\Ttl
      */
     public function cache($key, callable $callable, $ttl)
     {
