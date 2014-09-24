@@ -34,7 +34,8 @@ class Memcached implements ValueStoreInterface, LockStoreInterface
 
     public function add($key, $value, $ttl)
     {
-        return $this->memcached->add($this->prepareTtl($key), $value, $this->prepareTtl($ttl));
+        $this->memcached->add($this->prepareTtl($key), $value, $this->prepareTtl($ttl));
+        return ($this->memcached->getResultCode() !== \Memcached::RES_NOTSTORED);
     }
 
     public function delete($key)
