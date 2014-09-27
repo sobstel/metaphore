@@ -1,5 +1,5 @@
 <?php
-namespace Metaphore;
+namespace Metaphore\Tests;
 
 use Metaphore\Cache;
 use Metaphore\Store\MockStore;

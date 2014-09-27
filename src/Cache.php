@@ -86,8 +86,8 @@ class Cache
 
         $result = call_user_func($callable);
 
-        $expiration_timestamp = time() + $ttl->getTtl();
-        $value = new Value($result, $expiration_timestamp);
+        $expirationTimestamp = time() + $ttl->getTtl();
+        $value = new Value($result, $expirationTimestamp);
 
         $this->valueStore->set($key, $value, $ttl->getRealTtl());
 

@@ -5,8 +5,14 @@ use Metaphore\Store\LockStoreInterface;
 
 interface ValueStoreInterface
 {
+    /**
+     * @return bool
+     */
     public function set($key, $value, $ttl);
 
+    /**
+     * @return mixed
+     */
     public function get($key);
 
     /**
@@ -14,5 +20,8 @@ interface ValueStoreInterface
      */
     public function add($key, $value, $ttl);
 
+    /**
+     * @return bool
+     */
     public function delete($key);
 }

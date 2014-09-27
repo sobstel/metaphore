@@ -3,10 +3,13 @@ namespace Metaphore\Store;
 
 use Metaphore\Store\ValueStoreInterface;
 use Metaphore\Store\LockStoreInterface;
+use Memcached;
 
-class Memcached implements ValueStoreInterface, LockStoreInterface
+class MemcachedStore implements ValueStoreInterface, LockStoreInterface
 {
-    // over some threshold, it's treated as timestamp (and not ttl)
+    // when over 30 days, it's treated as unix timestamp (number of seconds
+    // since January 1, 1970, as an integer), and not a number of seconds
+    // starting from current time
     // http://www.php.net/manual/en/memcached.expiration.php
     const MAX_TTL = 2592000;
 
@@ -17,14 +20,17 @@ class Memcached implements ValueStoreInterface, LockStoreInterface
     /*** @var $memcached */
     protected $memcached;
 
-    public function __construct(\Memcached $memcached)
+    /**
+     * @param Memcached
+     */
+    public function __construct(Memcached $memcached)
     {
         $this->memcached = $memcached;
     }
 
     public function set($key, $value, $ttl)
     {
-        return $this->memcached->set($this->prepareTtl($key), $value, $this->prepareTtl($ttl));
+        return $this->memcached->set($this->prepareKey($key), $value, $this->prepareTtl($ttl));
     }
 
     public function get($key)
@@ -34,8 +40,7 @@ class Memcached implements ValueStoreInterface, LockStoreInterface
 
     public function add($key, $value, $ttl)
     {
-        $this->memcached->add($this->prepareTtl($key), $value, $this->prepareTtl($ttl));
-        return ($this->memcached->getResultCode() !== \Memcached::RES_NOTSTORED);
+        return $this->memcached->add($this->prepareKey($key), $value, $this->prepareTtl($ttl));
     }
 
     public function delete($key)
@@ -55,7 +60,7 @@ class Memcached implements ValueStoreInterface, LockStoreInterface
     protected function prepareTtl($ttl)
     {
         if ($ttl > self::MAX_TTL) {
-            return (time() + $ttl); // actual timestamp must be passed if higher than MAX_TTL
+            return (time() + $ttl); // timestamp must be passed if higher than MAX_TTL
         }
 
         return $ttl;
