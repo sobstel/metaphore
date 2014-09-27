@@ -3,6 +3,9 @@ namespace Metaphore;
 
 use Metaphore\Value;
 use Metaphore\Store\ValueStoreInterface;
+use Metaphore\Store\LockStoreInterface;
+use Metaphore\LockManager;
+use Metaphore\Exception;
 use Metaphore\Ttl;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
@@ -26,6 +29,13 @@ class Cache
         $this->valueStore = $valueStore;
 
         if (!$lockManager) {
+            if (!($valueStore instanceof LockStoreInterface)) {
+                throw new Exception(
+                    sprintf('%s does not implement LockStoreInterface. ', get_class($valueStore)).
+                    'Please provide lock manager or value store that\'s compatible with lock store. '
+                );
+            }
+
             $lockManager = new LockManager($valueStore);
         }
         $this->lockManager = $lockManager;
