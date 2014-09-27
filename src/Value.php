@@ -4,12 +4,12 @@ namespace Metaphore;
 class Value
 {
     protected $result;
-    protected $expiration_timestamp;
+    protected $expirationTimestamp;
 
-    public function __construct($result, $expiration_timestamp)
+    public function __construct($result, $expirationTimestamp)
     {
         $this->result = $result;
-        $this->expiration_timestamp = $expiration_timestamp;
+        $this->expirationTimestamp = $expirationTimestamp;
     }
 
     public function getResult()
@@ -17,13 +17,13 @@ class Value
         return $this->result;
     }
 
-    public function isStale($now_timestamp = null)
+    public function isStale($nowTimestamp = null)
     {
-        if (!$now_timestamp) {
-            $now_timestamp = time();
+        if (!$nowTimestamp) {
+            $nowTimestamp = time();
         }
 
-        return ($now_timestamp > $this->expiration_timestamp);
+        return ($nowTimestamp > $this->expirationTimestamp);
     }
 
     public function __toString()
