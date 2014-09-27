@@ -9,13 +9,12 @@ class Ttl
     /*** @var int */
     protected $ttl;
 
-    /*** @var int */
+    /*** @var int How long to serve stale content while new one is being generated */
     protected $graceTtl;
 
     /*** @var int */
     protected $lockTtl;
 
-    /*** @var int How long to serve stale content while new one is being generated */
     public function __construct($ttl, $graceTtl = null, $lockTtl = null)
     {
         $this->ttl = (int)$ttl;
