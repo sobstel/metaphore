@@ -1,7 +1,9 @@
 <?php
 namespace Metaphore;
 
-// time-to-live (value object)
+/**
+ * Time-to-live value object.
+ */
 class Ttl
 {
     const DEFAULT_GRACE_TTL = 60;
@@ -15,6 +17,11 @@ class Ttl
     /*** @var int */
     protected $lockTtl;
 
+    /**
+     * @param int
+     * @param int Grace period
+     * @param int
+     */
     public function __construct($ttl, $graceTtl = null, $lockTtl = null)
     {
         $this->ttl = (int)$ttl;
@@ -28,18 +35,30 @@ class Ttl
         }
     }
 
+    /**
+     * @return int
+     */
     public function getTtl()
     {
         return $this->ttl;
     }
 
-    // how log it's really cached in cache store
+    /**
+     * Get time how log it's really cached in cache store.
+     *
+     * @return int
+     */
     public function getRealTtl()
     {
         // $grace_ttl added, so stale result might be served if needed
         return ($this->getTtl() + $this->getGraceTtl());
     }
 
+    /**
+     * Gets grace period
+     *
+     * @return int
+     */
     public function getGraceTtl()
     {
         if (!isset($this->graceTtl)) {
@@ -49,6 +68,9 @@ class Ttl
         return $this->graceTtl;
     }
 
+    /**
+     * @return int
+     */
     public function getLockTtl()
     {
         if (!isset($this->lockTtl)) {

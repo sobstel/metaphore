@@ -3,6 +3,9 @@ namespace Metaphore;
 
 use Metaphore\Store\LockStoreInterface;
 
+/**
+ * Manages locks (acquiring and releasing).
+ */
 class LockManager
 {
     protected $lockStore;

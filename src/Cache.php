@@ -10,6 +10,9 @@ use Metaphore\Ttl;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
+/**
+ * Main class handling cache.
+ */
 class Cache
 {
     /*** @var \Metaphore\Store\ValueStoreInterface */
@@ -97,7 +100,9 @@ class Cache
         return $result;
     }
 
-    // gets value bypassing anti-dogile-effect mechanism
+    /**
+     * Gets value bypassing anti-dogile-effect mechanism
+     */
     public function get($key)
     {
         $value = $this->valueStore->get($key);
