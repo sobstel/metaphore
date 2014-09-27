@@ -16,7 +16,7 @@ class MockStore implements ValueStoreInterface, LockStoreInterface
 
     public function get($key)
     {
-        if (!isset($this->values[$key])) {
+        if (!$this->exists($key)) {
             return false;
         }
 
@@ -25,7 +25,7 @@ class MockStore implements ValueStoreInterface, LockStoreInterface
 
     public function add($key, $value, $ttl)
     {
-        if (isset($this->values[$key])) {
+        if ($this->exists($key)) {
             return false;
         }
 
@@ -35,11 +35,16 @@ class MockStore implements ValueStoreInterface, LockStoreInterface
 
     public function delete($key)
     {
-        if (!isset($this->values[$key])) {
+        if (!$this->exists($key)) {
             return false;
         }
 
         unset($this->values[$key]);
         return true;
+    }
+
+    protected function exists($key)
+    {
+        return isset($this->values[$key]);
     }
 }
