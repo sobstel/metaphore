@@ -80,17 +80,7 @@ class Cache
                 return $value->getResult();
             }
 
-            $this->getEventDispatcher()->dispatch(
-                'NO_STALE_CACHE',
-                new GenericEvent(
-                    $this,
-                    [
-                        'key' => $key,
-                        'callable' => $callable,
-                        'ttl' => $ttl,
-                    ]
-                )
-            );
+            $this->dispatchNoStaleCacheEvent($key, $callable, $ttl);
         }
 
         $result = call_user_func($callable);
@@ -142,5 +132,20 @@ class Cache
     protected function isValue($value)
     {
         return ($value !== false && $value instanceof \Metaphore\Value);
+    }
+
+    protected function dispatchNoStaleCacheEvent($key, $callable, $ttl)
+    {
+        $this->getEventDispatcher()->dispatch(
+            'NO_STALE_CACHE',
+            new GenericEvent(
+                $this,
+                [
+                    'key' => $key,
+                    'callable' => $callable,
+                    'ttl' => $ttl,
+                ]
+            )
+        );
     }
 }
