@@ -11,6 +11,9 @@ Read [http://www.sobstel.org/blog/preventing-dogpile-effect/](http://www.sobstel
 
 Metaphore is rewrite of [LSDCache](https://github.com/gsmlabs/LSDCache), which has been successfully used in many high-traffic production web apps. I just believe that LSDCache has grown too big into multi-purpose cache library while metaphore strives to be simple to do just one thing and to do it well.
 
+[![Build Status](https://travis-ci.org/sobstel/metaphore.svg?branch=master)](https://travis-ci.org/sobstel/metaphore)
+[![Build Status](https://scrutinizer-ci.com/g/sobstel/metaphore/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sobstel/metaphore/build-status/master)
+
 Usage
 -----
 
