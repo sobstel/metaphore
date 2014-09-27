@@ -64,6 +64,6 @@ class Ttl
 
     public function __toString()
     {
-        return $this->getTtl();
+        return (string)$this->getTtl();
     }
 }

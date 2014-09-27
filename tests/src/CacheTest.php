@@ -3,6 +3,7 @@ namespace Metaphore\Tests;
 
 use Metaphore\Cache;
 use Metaphore\Store\MockStore;
+use Symfony\Component\EventDispatcher\GenericEvent;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -12,6 +13,11 @@ class CacheTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->cache = new Cache(new MockStore());
+    }
+
+    public function tearDown()
+    {
+        $this->cache = null;
     }
 
     public function testCachesValue()
@@ -49,6 +55,31 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $retVal = $this->cache->cache($key, $this->createFunc($resultNew), -1);
 
         $this->assertSame($retVal, $resultNew);
+    }
+
+    public function testCallsListenerIfNotStaleContentAvailableToServe()
+    {
+        $noStaleCacheEvent = false;
+
+        $this->cache->getEventDispatcher()->addListener(
+            'NO_STALE_CACHE',
+            function (GenericEvent $event) use (&$noStaleCacheEvent) {
+                $noStaleCacheEvent = $event;
+            }
+        );
+
+        $key = 'maxi11';
+        $value = 'Maxi\s goal with Mexico in 2006 was truly brilliant.';
+        $ttl = 30;
+
+        // simulate lock (other process generating content)
+        $this->cache->getLockManager()->acquire($key, 30);
+
+        $this->cache->cache($key, $this->createFunc($value), $ttl);
+
+        $this->assertNotFalse($noStaleCacheEvent, 'NO_STALE_CACHE event not called');
+        $this->assertSame($key, $noStaleCacheEvent['key']);
+        $this->assertSame($ttl, (int)(string)$noStaleCacheEvent['ttl']);
     }
 
     protected function createFunc($result)

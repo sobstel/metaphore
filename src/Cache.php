@@ -44,7 +44,7 @@ class Cache
     }
 
     /**
-     * Cache specified closure/method/function for specified time.
+     * Caches specified closure/method/function for specified time.
      *
      * As a third argument - instead of integer - you can pass Ttt object to
      * define grace tll and lock ttl (both optional).
@@ -88,7 +88,6 @@ class Cache
                         'key' => $key,
                         'callable' => $callable,
                         'ttl' => $ttl,
-                        'value' => $value,
                     ]
                 )
             );
@@ -108,6 +107,7 @@ class Cache
         return $result;
     }
 
+    // gets value bypassing anti-dogile-effect mechanism
     public function get($key)
     {
         $value = $this->valueStore->get($key);
