@@ -1,7 +1,7 @@
 {
     "name": "sobstel/metaphore",
     "type": "library",
-    "description": "PHP cache slam defense using (memcached) semaphore to prevent dogpile effect (aka clobbering updates or stampending herd).",
+    "description": "PHP cache slam defense using a semaphore to prevent dogpile effect (aka clobbering updates or stampending herd).",
     "keywords": ["cache"],
     "homepage": "https://github.com/sobstel/metaphore",
     "license": "MIT",
