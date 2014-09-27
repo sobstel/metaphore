@@ -20,5 +20,10 @@
             "Metaphore\\Tests\\": "tests/src/",
             "Metaphore\\": "src/"
         }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
     }
 }
