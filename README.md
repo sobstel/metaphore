@@ -46,6 +46,20 @@ $cache->cache('key', function() {
 }, 30);
 ```
 
+Public API (methods)
+--------------------
+
+- `__construct(ValueStoreInterface $valueStore, LockManager $lockManager = null)`
+
+- `cache($key, callable $callable, $ttl)`
+- `get($key)`
+- `delete($key)`
+- `setResult($key, $result, Tttl $ttl)`
+
+- `getValueStore()`
+- `getLockManager()`
+- `getEventDispatcher()'
+
 Value store vs lock store
 -------------------------
 

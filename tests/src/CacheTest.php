@@ -16,8 +16,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         $actualResult = $cache->cache($key, $this->createFunc($result), 30);
 
-        $this->assertSame($actualResult, $result);
-        $this->assertSame($cache->get($key), $result);
+        $this->assertSame($result, $actualResult);
+        $this->assertSame($result, $cache->get($key)->getResult());
     }
 
     public function testServesStaleValueIfOtherProcessIsGeneratingContent()
@@ -79,7 +79,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($ttl, (int)(string)$noStaleCacheEvent['ttl']);
     }
 
-    public function testGetReturnsRawValueIfNoMetaphoreVAlueObjectStored()
+    public function testGetReturnsResultEvenIfNoMetaphoreValueObjectStored()
     {
         $cache = new Cache(new MockStore());
 
@@ -89,8 +89,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $cache->getValueStore()->set($key, $value, 30);
         $result = $cache->get($key);
 
-        $this->assertFalse($result instanceof \Metaphore\Value);
-        $this->assertSame($value, $result);
+        $this->assertTrue($result instanceof \Metaphore\Value);
+        $this->assertSame($value, $result->getResult());
     }
 
     protected function createLockManagerMock()

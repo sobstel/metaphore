@@ -2,6 +2,7 @@
 namespace Metaphore;
 
 use Metaphore\Value;
+use Metaphore\ForeignValue;
 use Metaphore\Store\ValueStoreInterface;
 use Metaphore\Store\LockStoreInterface;
 use Metaphore\LockManager;
@@ -58,17 +59,9 @@ class Cache
      */
     public function cache($key, callable $callable, $ttl)
     {
-        $value = $this->valueStore->get($key);
+        $value = $this->get($key);
 
-        if (!$this->isValue($value)) { // if not proper Metaphore\Value object...
-            if ($value) { // ...return current result/value if present
-                return $value;
-            }
-            // ...create fake expired value object for convenience (to avoid additional checks later)
-            $value = new Value($value, -1);
-        }
-
-        if (!$value->isStale()) {
+        if (!$value->isFalse() && !$value->isStale()) {
             return $value->getResult();
         }
 
@@ -79,7 +72,7 @@ class Cache
         $lock_acquired = $this->lockManager->acquire($key, $ttl->getLockTtl());
 
         if (!$lock_acquired) {
-            if ($value->getResult() !== false) { // serve stale if present
+            if (!$value->isFalse()) { // serve stale if present
                 return $value->getResult();
             }
 
@@ -88,10 +81,7 @@ class Cache
 
         $result = call_user_func($callable);
 
-        $expirationTimestamp = time() + $ttl->getTtl();
-        $value = new Value($result, $expirationTimestamp);
-
-        $this->valueStore->set($key, $value, $ttl->getRealTtl());
+        $this->setResult($key, $result, $ttl);
 
         if ($lock_acquired) {
             $this->lockManager->release($key);
@@ -101,22 +91,36 @@ class Cache
     }
 
     /**
-     * Gets value bypassing anti-dogile-effect mechanism
+     * @return Value
      */
     public function get($key)
     {
         $value = $this->valueStore->get($key);
 
-        if ($this->isValue($value)) {
-            return $value->getResult();
+        if (!($value instanceof Value)) {
+            $value = new ForeignValue($value);
         }
 
         return $value;
     }
 
+    /**
+     * @return bool
+     */
     public function delete($key)
     {
-        $this->valueStore->delete($key);
+        return $this->valueStore->delete($key);
+    }
+
+    /**
+     * Sets result. Does not use anti-dogpile-effect mechanism. Use cache() instead for this.
+     */
+    public function setResult($key, $result, Ttl $ttl)
+    {
+        $expirationTimestamp = time() + $ttl->getTtl();
+        $value = new Value($result, $expirationTimestamp);
+
+        $this->valueStore->set($key, $value, $ttl->getRealTtl());
     }
 
     public function getValueStore()
@@ -132,11 +136,6 @@ class Cache
     public function getEventDispatcher()
     {
         return $this->eventDispatcher;
-    }
-
-    protected function isValue($value)
-    {
-        return ($value !== false && $value instanceof \Metaphore\Value);
     }
 
     protected function dispatchNoStaleCacheEvent($key, $callable, $ttl)
