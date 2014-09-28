@@ -14,8 +14,8 @@ Read [http://www.sobstel.org/blog/preventing-dogpile-effect/](http://www.sobstel
 for more details.
 
 *Metaphore* is a rewrite of [LSDCache](https://github.com/gsmlabs/LSDCache), which has been successfully used in many
-high-traffic production web apps. I just believe that LSDCache has grown too big into multi-purpose cache library while
-*Metaphore* strives to be simple to do just one thing and to do it well.
+high-traffic production web apps. I just believe that LSDCache has grown too big into multi-purpose cache library (which
+is not really maintained anymore) while *Metaphore* strives to be simple to do just one thing and to do it well.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sobstel/metaphore/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sobstel/metaphore/?branch=master)
 [![Build Status](https://travis-ci.org/sobstel/metaphore.svg?branch=master)](https://travis-ci.org/sobstel/metaphore)
@@ -58,7 +58,7 @@ Public API (methods)
 
 - `getValueStore()`
 - `getLockManager()`
-- `getEventDispatcher()'
+- `getEventDispatcher()`
 
 Value store vs lock store
 -------------------------
