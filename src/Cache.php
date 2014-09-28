@@ -59,7 +59,7 @@ class Cache
      */
     public function cache($key, callable $callable, $ttl)
     {
-        $value = $this->get($key);
+        $value = $this->getValue($key);
 
         if (!$value->isFalse() && !$value->isStale()) {
             return $value->getResult();
@@ -91,9 +91,17 @@ class Cache
     }
 
     /**
+     * @return bool
+     */
+    public function delete($key)
+    {
+        return $this->valueStore->delete($key);
+    }
+
+    /**
      * @return Value
      */
-    public function get($key)
+    public function getValue($key)
     {
         $value = $this->valueStore->get($key);
 
@@ -102,14 +110,6 @@ class Cache
         }
 
         return $value;
-    }
-
-    /**
-     * @return bool
-     */
-    public function delete($key)
-    {
-        return $this->valueStore->delete($key);
     }
 
     /**

@@ -2,6 +2,7 @@
 namespace Metaphore\Tests;
 
 use Metaphore\Cache;
+use Metaphore\Ttl;
 use Metaphore\Store\MockStore;
 use Symfony\Component\EventDispatcher\GenericEvent;
 
@@ -17,7 +18,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $actualResult = $cache->cache($key, $this->createFunc($result), 30);
 
         $this->assertSame($result, $actualResult);
-        $this->assertSame($result, $cache->get($key)->getResult());
+        $this->assertSame($result, $cache->getValue($key)->getResult());
     }
 
     public function testServesStaleValueIfOtherProcessIsGeneratingContent()
@@ -86,8 +87,8 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $key = 'dimaria7';
         $value = 'Man Utd, not Real';
 
-        $cache->getValueStore()->set($key, $value, 30);
-        $result = $cache->get($key);
+        $cache->setResult($key, $value, new Ttl(30));
+        $result = $cache->getValue($key);
 
         $this->assertTrue($result instanceof \Metaphore\Value);
         $this->assertSame($value, $result->getResult());

@@ -51,10 +51,10 @@ Public API (methods)
 
 - `__construct(ValueStoreInterface $valueStore, LockManager $lockManager = null)`
 
-- `cache($key, callable $callable, $ttl)`
-- `get($key)`
+- `cache($key, callable $callable, $ttl)` - returns result
 - `delete($key)`
-- `setResult($key, $result, Tttl $ttl)`
+- `getValue($key)` - returns Value object
+- `setResult($key, $result, Tttl $ttl)` - sets result (without anti-dogpile-effect mechanism)
 
 - `getValueStore()`
 - `getLockManager()`

@@ -17,7 +17,7 @@ class MemcachedStore implements ValueStoreInterface, LockStoreInterface
     // https://code.google.com/p/memcached/wiki/NewProgrammingTricks#Reducing_key_size
     const MAX_KEY_LENGTH = 250;
 
-    /*** @var $memcached */
+    /*** @var Memcached */
     protected $memcached;
 
     /**
