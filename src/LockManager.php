@@ -8,10 +8,14 @@ use Metaphore\Store\LockStoreInterface;
  */
 class LockManager
 {
+    /*** @var LockStoreInterface */
     protected $lockStore;
 
     protected $acquiredLocks = [];
 
+    /**
+     * @param LockStoreInterface
+     */
     public function __construct(LockStoreInterface $lockStore)
     {
         $this->lockStore = $lockStore;
@@ -19,17 +23,17 @@ class LockManager
 
     public function __destruct()
     {
-        // release lock that have been acquired but not released for some reason
+        // release locks that have been acquired but not released for some reason
         foreach ($this->acquiredLocks as $key => $true) {
             $this->release($key);
         }
     }
 
-    protected function prepareLockKey($key)
-    {
-        return sprintf('%s.lock', $key);
-    }
-
+    /**
+     * @param string
+     * @param int
+     * @return bool
+     */
     public function acquire($key, $lockTtl)
     {
         $result = $this->lockStore->add($this->prepareLockKey($key), 1, $lockTtl);
@@ -41,17 +45,31 @@ class LockManager
         return $result;
     }
 
+    /**
+     * @param string
+     * @return bool
+     */
     public function release($key)
     {
-        $this->lockStore->delete($this->prepareLockKey($key));
+        $result = $this->lockStore->delete($this->prepareLockKey($key));
 
         if (isset($this->acquiredLocks[$key])) {
             unset($this->acquiredLocks[$key]);
         }
+
+        return $result;
     }
 
+    /**
+     * @return LockStoreInterface
+     */
     public function getLockStore()
     {
         return $this->lockStore;
+    }
+
+    protected function prepareLockKey($key)
+    {
+        return sprintf('%s.lock', $key);
     }
 }

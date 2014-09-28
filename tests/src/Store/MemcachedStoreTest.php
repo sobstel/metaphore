@@ -3,47 +3,16 @@ namespace Metaphore\Tests\Store;
 
 use Metaphore\Store\MemcachedStore;
 
-class MemcachedStoreTest extends \PHPUnit_Framework_TestCase
+class MemcachedStoreTest extends AbstractStoreTest
 {
-    protected $memcachedStore;
-
     public function setUp()
     {
-        $this->memcachedStore = new MemcachedStore($this->createMemcachedMock());
+        $this->store = new MemcachedStore($this->createMemcachedMock());
     }
 
     public function tearDown()
     {
-        $this->memcachedStore = null;
-    }
-
-    /**
-     * @dataProvider keyValuePairsProvider
-     */
-    public function testSetAndGet($key, $value, $ttl)
-    {
-        $this->memcachedStore->set($key, $value, $ttl);
-        $this->assertSame($value, $this->memcachedStore->get($key));
-    }
-
-    /**
-     * @dataProvider keyValuePairsProvider
-     */
-    public function testAddAndGet($key, $value, $ttl)
-    {
-        $this->memcachedStore->add($key, $value, $ttl);
-        $this->assertSame($value, $this->memcachedStore->get($key));
-    }
-
-    /**
-     * @dataProvider keyValuePairsProvider
-     */
-    public function testSetAndDelete($key, $value, $ttl)
-    {
-        $this->memcachedStore->set($key, $value, $ttl);
-        $this->memcachedStore->delete($key);
-
-        $this->assertEmpty($this->memcachedStore->get($key));
+        $this->store = null;
     }
 
     /**
@@ -51,22 +20,13 @@ class MemcachedStoreTest extends \PHPUnit_Framework_TestCase
      */
     public function testTimestampPassedIfTtlBiggerThan30Days($key, $value, $ttl)
     {
-        $method = (new \ReflectionClass($this->memcachedStore))->getMethod('prepareTtl');
+        $method = (new \ReflectionClass($this->store))->getMethod('prepareTtl');
         $method->setAccessible(true);
 
-        $prepared_ttl = $method->invokeArgs($this->memcachedStore, [$ttl]);
+        $prepared_ttl = $method->invokeArgs($this->store, [$ttl]);
 
         // value can be either lower than 30 days or set to unix timestamp in the future
         $this->assertTrue($prepared_ttl <= MemcachedStore::MAX_TTL || $prepared_ttl >= time());
-    }
-
-    public function keyValuePairsProvider()
-    {
-        return [
-            ['messi', 'messiah10', 30],
-            [str_repeat(sha1(mt_rand()), 10), 'messy argentino', 30], // long key (400 chars)
-            ['key', 'value', MemcachedStore::MAX_TTL + 3600] // big ttl
-        ];
     }
 
     protected function createMemcachedMock()
@@ -155,9 +115,8 @@ class MemcachedStoreTest extends \PHPUnit_Framework_TestCase
                     function ($arg) use ($mockValue) {
                         if ($arg == $mockValue->key) {
                             $mockValue->value = null;
-                            return true;
                         }
-                        return false;
+                        return true;
                     }
                 )
             )
