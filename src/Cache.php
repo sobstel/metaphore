@@ -27,6 +27,7 @@ class Cache
     /**
      * @param \Metaphore\Store\ValueStoreInterface
      * @param \Metaphore\Store\LockStoreInterface
+     * @throws \Metaphore\Exception When value store cannot be used as lock store by default.
      */
     public function __construct(ValueStoreInterface $valueStore, LockManager $lockManager = null)
     {
@@ -123,16 +124,25 @@ class Cache
         $this->valueStore->set($key, $value, $ttl->getRealTtl());
     }
 
+    /**
+     * @return ValueStoreInterface
+     */
     public function getValueStore()
     {
         return $this->valueStore;
     }
 
+    /**
+     * @return LockManager
+     */
     public function getLockManager()
     {
         return $this->lockManager;
     }
 
+    /**
+     * @return EventDispatcher
+     */
     public function getEventDispatcher()
     {
         return $this->eventDispatcher;

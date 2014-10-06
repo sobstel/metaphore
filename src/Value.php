@@ -43,6 +43,9 @@ class Value
         return ($nowTimestamp > $this->expirationTimestamp);
     }
 
+    /**
+     * @return bool
+     */
     public function isFalse()
     {
         return ($this->getResult() === false);

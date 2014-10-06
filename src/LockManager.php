@@ -11,6 +11,7 @@ class LockManager
     /*** @var LockStoreInterface */
     protected $lockStore;
 
+    /*** @var array */
     protected $acquiredLocks = [];
 
     /**

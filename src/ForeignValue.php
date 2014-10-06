@@ -14,11 +14,17 @@ use Metaphore\Value;
  */
 class ForeignValue extends Value
 {
+    /**
+     * @param mixed
+     */
     public function __construct($result)
     {
         parent::__construct($result, PHP_INT_MAX);
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function isStale($nowTimestamp = null)
     {
         return false;
