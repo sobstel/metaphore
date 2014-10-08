@@ -31,6 +31,14 @@ class Value
     }
 
     /**
+     * @return bool
+     */
+    public function hasResult()
+    {
+        return ($this->getResult() !== false);
+    }
+
+    /**
      * @param int (optional)
      * @param bool
      */
@@ -41,14 +49,6 @@ class Value
         }
 
         return ($nowTimestamp > $this->expirationTimestamp);
-    }
-
-    /**
-     * @return bool
-     */
-    public function isFalse()
-    {
-        return ($this->getResult() === false);
     }
 
     public function __toString()

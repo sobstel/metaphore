@@ -62,7 +62,7 @@ class Cache
     {
         $value = $this->getValue($key);
 
-        if (!$value->isFalse() && !$value->isStale()) {
+        if ($value->hasResult() && !$value->isStale()) {
             return $value->getResult();
         }
 
@@ -73,7 +73,7 @@ class Cache
         $lock_acquired = $this->lockManager->acquire($key, $ttl->getLockTtl());
 
         if (!$lock_acquired) {
-            if (!$value->isFalse()) { // serve stale if present
+            if ($value->hasResult()) { // serve stale if present
                 return $value->getResult();
             }
 
