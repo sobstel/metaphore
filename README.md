@@ -28,7 +28,7 @@ In composer.json file:
 
 ```
 "require": {
-	"sobstel/metaphore": "dev-master"
+  "sobstel/metaphore": "1.0.*"
 }
 ```
 
@@ -102,7 +102,6 @@ $cache->cache('key', callback, $ttl);
   default is 60s
 - `$lock_ttl` - lock time, hwo long to prevent other request(s) to start generating content, default is `($grace_ttl / 2)`
 
-
 NO_STALE_CACHE event
 --------------------
 
@@ -122,3 +121,7 @@ $cache->getEventDispatcher()->addListener(
 
 Available event properties: `'key'`, `'callable'`, `'ttl'`.
 
+Credits
+-------
+
+Thanks to Łukasz Łoboda, Wiktor Malinowski (and anyone I forgot, sorry) for review and comments.
