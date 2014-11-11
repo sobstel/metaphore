@@ -1,0 +1,15 @@
+CHANGELOG
+=========
+
+1.1.0
+-----
+
+* NoStaleCache improvements
+  * Removed: dependency on symfony event-dispatcher
+  * Added: possible to return value using noStaleCacheEvent.
+  * Added: possible to pass callback to cache() call as last argument.
+
+1.0.1
+-----
+
+* MemcacheStore (krzysztof-magosa)
