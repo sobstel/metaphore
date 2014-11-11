@@ -28,7 +28,7 @@ In composer.json file:
 
 ```
 "require": {
-  "sobstel/metaphore": "1.0.*"
+  "sobstel/metaphore": "1.1.*"
 }
 ```
 
@@ -54,11 +54,11 @@ Public API (methods)
 - `cache($key, callable $callable, $ttl)` - returns result
 - `delete($key)`
 - `getValue($key)` - returns Value object
-- `setResult($key, $result, Tttl $ttl)` - sets result (without anti-dogpile-effect mechanism)
+- `setResult($key, $result, Ttl $ttl)` - sets result (without anti-dogpile-effect mechanism)
+- `onNoStaleCache($callable)`
 
 - `getValueStore()`
 - `getLockManager()`
-- `getEventDispatcher()`
 
 Value store vs lock store
 -------------------------
@@ -68,7 +68,6 @@ possible - for example - to write and use external MySQL GET_LOCK/RELEASE_LOCK f
 Memcached store for storing values.
 
 By default, value store is used for lock store if no 2nd argument passed to Cache constructor.
-
 
 ``` php
 $valueStore = new Metaphore\MemcachedStore($memcached);
@@ -102,8 +101,8 @@ $cache->cache('key', callback, $ttl);
   default is 60s
 - `$lock_ttl` - lock time, hwo long to prevent other request(s) to start generating content, default is `($grace_ttl / 2)`
 
-NO_STALE_CACHE event
---------------------
+No stale cache
+--------------
 
 In rare situations, when cache gets expired and there's no stale (generated earier) content available, all requests
 will start generating new content.
@@ -111,17 +110,22 @@ will start generating new content.
 You can add listener to catch this:
 
 ``` php
-$cache->getEventDispatcher()->addListener(
-    'NO_STALE_CACHE',
-    function (\Symfony\Component\EventDispatcher\GenericEvent $event) {
-        Logger::log(sprintf('no stale cache detected for key %s', $event['key']))
-    }
-);
+$cache->onNoStaleCache(function (NoStaleCacheEvent $event) {
+    Logger::log(sprintf('no stale cache detected for key %s', $event->getKey()));
+});
 ```
 
-Available event properties: `'key'`, `'callable'`, `'ttl'`.
+You can also affect value that is returned:
+
+``` php
+$cache->onNoStaleCache(function (NoStaleCacheEvent $event) {
+    $event->setResult('new custom result');
+});
+```
 
 Credits
 -------
 
-Thanks to Łukasz Łoboda, Wiktor Malinowski (and anyone I forgot, sorry) for review and comments.
+Thanks to all the [contibutors](https://github.com/sobstel/metaphore/graphs/contributors) as well as
+Krzysztof Magosa, Łukasz Łoboda, Maciej Gierok, Wiktor Malinowski (and anyone I forgot, sorry)
+for review and comments.

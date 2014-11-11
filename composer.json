@@ -12,8 +12,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "symfony/event-dispatcher": ">=2.1"
+        "php": ">=5.4.0"
     },
     "autoload": {
         "psr-4": {
@@ -24,7 +23,7 @@
     "minimum-stability": "dev",
     "extra": {
         "branch-alias": {
-            "dev-master": "1.0.x-dev"
+            "dev-master": "1.1.x-dev"
         }
     }
 }

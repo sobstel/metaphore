@@ -4,7 +4,7 @@ namespace Metaphore\Tests;
 use Metaphore\Cache;
 use Metaphore\Ttl;
 use Metaphore\Store\MockStore;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Metaphore\NoStaleCacheEvent;
 
 class CacheTest extends \PHPUnit_Framework_TestCase
 {
@@ -53,18 +53,15 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($retVal, $resultNew);
     }
 
-    public function testCallsListenerIfNotStaleContentAvailableToServe()
+    public function testCallsCallableIfNotStaleContentAvailableToServe()
     {
         $cache = new Cache(new MockStore());
 
         $noStaleCacheEvent = false;
 
-        $cache->getEventDispatcher()->addListener(
-            'NO_STALE_CACHE',
-            function (GenericEvent $event) use (&$noStaleCacheEvent) {
-                $noStaleCacheEvent = $event;
-            }
-        );
+        $cache->onNoStaleCache(function (NoStaleCacheEvent $event) use (&$noStaleCacheEvent) {
+            $noStaleCacheEvent = $event;
+        });
 
         $key = 'maxi11';
         $value = 'Maxi\s goal with Mexico in 2006 was truly brilliant.';
@@ -76,8 +73,30 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $cache->cache($key, $this->createFunc($value), $ttl);
 
         $this->assertNotFalse($noStaleCacheEvent, 'NO_STALE_CACHE event not called');
-        $this->assertSame($key, $noStaleCacheEvent['key']);
-        $this->assertSame($ttl, (int)(string)$noStaleCacheEvent['ttl']);
+        $this->assertSame($key, $noStaleCacheEvent->getKey());
+        $this->assertSame($ttl, (int)(string)$noStaleCacheEvent->getTtl());
+    }
+
+    public function testCallableCanReturnDifferentValueIfNotStaleContentAvailableToServe()
+    {
+        $cache = new Cache(new MockStore());
+
+        $customValue = 'custom_value';
+
+        $cache->onNoStaleCache(function (NoStaleCacheEvent $event) use ($customValue) {
+            $event->setResult($customValue);
+        });
+
+        $key = 'lamela';
+        $value = 'Tottenham Rabona';
+        $ttl = 30;
+
+        // simulate lock (other process generating content)
+        $cache->getLockManager()->acquire($key, 30);
+
+        $result = $cache->cache($key, $this->createFunc($value), $ttl);
+
+        $this->assertSame($customValue, $result);
     }
 
     public function testGetReturnsResultEvenIfNoMetaphoreValueObjectStored()

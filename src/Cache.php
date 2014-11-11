@@ -8,8 +8,7 @@ use Metaphore\Store\LockStoreInterface;
 use Metaphore\LockManager;
 use Metaphore\Exception;
 use Metaphore\Ttl;
-use Symfony\Component\EventDispatcher\EventDispatcher;
-use Symfony\Component\EventDispatcher\GenericEvent;
+use Metaphore\NoStaleCacheEvent;
 
 /**
  * Main class handling cache.
@@ -22,7 +21,8 @@ class Cache
     /*** @var \Metaphore\LockManager */
     protected $lockManager;
 
-    protected $eventDispatcher;
+    /*** @var callable */
+    protected $onNoStaleCacheCallable;
 
     /**
      * @param \Metaphore\Store\ValueStoreInterface
@@ -44,8 +44,6 @@ class Cache
             $lockManager = new LockManager($valueStore);
         }
         $this->lockManager = $lockManager;
-
-        $this->eventDispatcher = new EventDispatcher();
     }
 
     /**
@@ -57,8 +55,9 @@ class Cache
      * @param string
      * @param callable
      * @param int|\Metaphore\Ttl
+     * @param callable
      */
-    public function cache($key, callable $callable, $ttl)
+    public function cache($key, callable $cachedCallable, $ttl, callable $onNoStaleCacheCallable = null)
     {
         $value = $this->getValue($key);
 
@@ -77,10 +76,22 @@ class Cache
                 return $value->getResult();
             }
 
-            $this->dispatchNoStaleCacheEvent($key, $callable, $ttl);
+            if (!$onNoStaleCacheCallable) {
+                $onNoStaleCacheCallable = $this->onNoStaleCacheCallable;
+            }
+
+            if ($onNoStaleCacheCallable !== null) {
+                $event = new NoStaleCacheEvent($this, $key, $cachedCallable, $ttl);
+
+                call_user_func($onNoStaleCacheCallable, $event);
+
+                if ($event->hasResult()) {
+                    return $event->getResult();
+                }
+            }
         }
 
-        $result = call_user_func($callable);
+        $result = call_user_func($cachedCallable);
 
         $this->setResult($key, $result, $ttl);
 
@@ -125,6 +136,14 @@ class Cache
     }
 
     /**
+     * @param callable
+     */
+    public function onNoStaleCache(callable $onNoStaleCacheCallable)
+    {
+        $this->onNoStaleCacheCallable = $onNoStaleCacheCallable;
+    }
+
+    /**
      * @return ValueStoreInterface
      */
     public function getValueStore()
@@ -138,28 +157,5 @@ class Cache
     public function getLockManager()
     {
         return $this->lockManager;
-    }
-
-    /**
-     * @return EventDispatcher
-     */
-    public function getEventDispatcher()
-    {
-        return $this->eventDispatcher;
-    }
-
-    protected function dispatchNoStaleCacheEvent($key, $callable, $ttl)
-    {
-        $this->getEventDispatcher()->dispatch(
-            'NO_STALE_CACHE',
-            new GenericEvent(
-                $this,
-                [
-                    'key' => $key,
-                    'callable' => $callable,
-                    'ttl' => $ttl,
-                ]
-            )
-        );
     }
 }
