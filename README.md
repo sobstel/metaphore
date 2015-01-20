@@ -99,7 +99,7 @@ $cache->cache('key', callback, $ttl);
 - `$ttl` - regular cache time (in seconds)
 - `$grace_ttl` - grace period, how long to allow to serve stale content while new one is being generated (in seconds),
   default is 60s
-- `$lock_ttl` - lock time, hwo long to prevent other request(s) to start generating content, default is `($grace_ttl / 2)`
+- `$lock_ttl` - lock time, how long to prevent other request(s) to start generating same content, default is 5s
 
 No stale cache
 --------------

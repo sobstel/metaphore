@@ -1,6 +1,12 @@
 CHANGELOG
 =========
 
+1.2.0
+-----
+
+* Changed: pre-defined default lock ttl (5s) instead of fancy (and logicless)
+  algorithm based on grace ttl.
+
 1.1.0
 -----
 

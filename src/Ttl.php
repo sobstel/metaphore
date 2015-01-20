@@ -8,13 +8,15 @@ class Ttl
 {
     const DEFAULT_GRACE_TTL = 60;
 
+    const DEFAULT_LOCK_TTL = 5;
+
     /*** @var int */
     protected $ttl;
 
     /*** @var int How long to serve stale content while new one is being generated */
     protected $graceTtl;
 
-    /*** @var int */
+    /*** @var int How long to prevent other requests to start generating same content */
     protected $lockTtl;
 
     /**
@@ -74,10 +76,7 @@ class Ttl
     public function getLockTtl()
     {
         if (!isset($this->lockTtl)) {
-            // educated guess (remove lock early enough so if anything goes wrong
-            // with first process, another one can pick up)
-            // SMELL: a bit problematic, why $grace_ttl/2 ???
-            $this->lockTtl = max(1, (int)($this->getGraceTtl()/2));
+            $this->lockTtl = self::DEFAULT_LOCK_TTL;
         }
 
         return $this->lockTtl;
