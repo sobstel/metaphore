@@ -18,10 +18,5 @@ interface ValueStoreInterface
     /**
      * @return bool
      */
-    public function add($key, $value, $ttl);
-
-    /**
-     * @return bool
-     */
     public function delete($key);
 }
