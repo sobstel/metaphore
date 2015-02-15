@@ -17,7 +17,7 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
 
     public function set($key, $value, $ttl)
     {
-        return $this->predis->setex($key, $ttl, $value);
+        return $this->predis->set($key, $value, "EX", $ttl);
     }
 
     public function get($key)
