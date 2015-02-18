@@ -13,10 +13,6 @@ until it's refreshed by the first request.
 Read [http://www.sobstel.org/blog/preventing-dogpile-effect/](http://www.sobstel.org/blog/preventing-dogpile-effect/)
 for more details.
 
-*Metaphore* is a rewrite of [LSDCache](https://github.com/gsmlabs/LSDCache), which has been successfully used in many
-high-traffic production web apps. I just believe that LSDCache has grown too big into multi-purpose cache library (which
-is not really maintained anymore) while *Metaphore* strives to be simple to do just one thing and to do it well.
-
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sobstel/metaphore/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sobstel/metaphore/?branch=master)
 [![Build Status](https://travis-ci.org/sobstel/metaphore.svg?branch=master)](https://travis-ci.org/sobstel/metaphore)
 [![Build Status](https://scrutinizer-ci.com/g/sobstel/metaphore/badges/build.png?b=master)](https://scrutinizer-ci.com/g/sobstel/metaphore/build-status/master)
@@ -28,7 +24,7 @@ In composer.json file:
 
 ```
 "require": {
-  "sobstel/metaphore": "1.1.*"
+  "sobstel/metaphore": "1.2.*"
 }
 ```
 
@@ -51,7 +47,7 @@ Public API (methods)
 
 - `__construct(ValueStoreInterface $valueStore, LockManager $lockManager = null)`
 
-- `cache($key, callable $callable, $ttl)` - returns result
+- `cache($key, callable $callable, [$ttl, [$onNoStaleCacheCallable]])` - returns result
 - `delete($key)`
 - `getValue($key)` - returns Value object
 - `setResult($key, $result, Ttl $ttl)` - sets result (without anti-dogpile-effect mechanism)
@@ -123,9 +119,3 @@ $cache->onNoStaleCache(function (NoStaleCacheEvent $event) {
 });
 ```
 
-Credits
--------
-
-Thanks to all the [contibutors](https://github.com/sobstel/metaphore/graphs/contributors) as well as
-Krzysztof Magosa, Łukasz Łoboda, Maciej Gierok, Wiktor Malinowski (and anyone I forgot, sorry)
-for review and comments.

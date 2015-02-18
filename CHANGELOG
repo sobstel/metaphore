@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.2.?
+-----
+
+* Added: PredisStore (redis store) (wojciechlukoszek)
+
 1.2.0
 -----
 
@@ -18,4 +23,4 @@ CHANGELOG
 1.0.1
 -----
 
-* MemcacheStore (krzysztof-magosa)
+* Added: MemcacheStore (krzysztof-magosa)
