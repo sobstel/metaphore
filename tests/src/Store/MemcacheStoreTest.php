@@ -7,7 +7,6 @@ use Memcache;
 /**
  * @group notisolated
  * @group memcached
- * @group temporarilydisabled
  */
 class MemcacheStoreTest extends AbstractStoreTest
 {

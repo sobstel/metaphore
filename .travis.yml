@@ -3,9 +3,10 @@ php:
   - 5.5
   - 5.4
 before_script:
+  - phpenv config-add .travis.php.ini
   - composer install
   - composer require predis/predis
-script: phpunit --testdox --exclude-group=temporarilydisabled
+script: phpunit --testdox
 services:
   - memcached
   - redis-server
