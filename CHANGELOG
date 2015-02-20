@@ -1,24 +1,25 @@
 CHANGELOG
 =========
 
-1.2.?
+1.2.1
 -----
 
 * Added: PredisStore (redis store) (wojciechlukoszek)
+* Improved: real-life memcache/memcached stores tests
 
 1.2.0
 -----
 
 * Changed: pre-defined default lock ttl (5s) instead of fancy (and logicless)
-  algorithm based on grace ttl.
+  algorithm based on grace ttl
 
 1.1.0
 -----
 
 * NoStaleCache improvements
   * Removed: dependency on symfony event-dispatcher
-  * Added: possible to return value using noStaleCacheEvent.
-  * Added: possible to pass callback to cache() call as last argument.
+  * Added: possible to return value using noStaleCacheEvent
+  * Added: possible to pass callback to cache() call as last argument
 
 1.0.1
 -----

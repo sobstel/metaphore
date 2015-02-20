@@ -126,9 +126,17 @@ class Cache
 
     /**
      * Sets result. Does not use anti-dogpile-effect mechanism. Use cache() instead for this.
+     *
+     * @param string
+     * @param mixed
+     * @param int|\Metaphore\Ttl
      */
-    public function setResult($key, $result, Ttl $ttl)
+    public function setResult($key, $result, $ttl)
     {
+        if (!($ttl instanceof Ttl)) {
+            $ttl = new Ttl($ttl);
+        }
+
         $expirationTimestamp = time() + $ttl->getTtl();
         $value = new Value($result, $expirationTimestamp);
 
