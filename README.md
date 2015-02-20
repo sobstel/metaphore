@@ -119,3 +119,9 @@ $cache->onNoStaleCache(function (NoStaleCacheEvent $event) {
 });
 ```
 
+Tests
+-----
+
+Run all tests: `phpunit`.
+
+If no memcached or/and redis installed: `phpunit --exclude-group=notisolated` or `phpunit --exclude-group=memcached,redis`.

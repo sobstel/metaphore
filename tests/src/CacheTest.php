@@ -10,7 +10,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 {
     public function testCachesValue()
     {
-        $cache = new Cache(new MockStore());
+        $cache = new Cache(new MockStore);
 
         $key = "gago5";
         $result = "Fernando Rubén Gago plays as a defensive midfielder for Boca Juniors and the Argentine team.";
