@@ -5,7 +5,7 @@ php:
 before_script:
   - composer install
   - composer require predis/predis
-script: phpunit --testdox
+script: phpunit --testdox --exclude-group=temporarilydisabled
 services:
   - memcached
   - redis-server
