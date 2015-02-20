@@ -5,7 +5,8 @@ CHANGELOG
 -----
 
 * Added: PredisStore (redis store) (wojciechlukoszek)
-* Improved: real-life memcache/memcached stores tests
+* Changed: real-life memcache/memcached stores tests
+* Changed: Cache::setResult() accepts $ttl as a integer too
 
 1.2.0
 -----
