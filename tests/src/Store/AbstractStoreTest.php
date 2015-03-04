@@ -13,7 +13,7 @@ abstract class AbstractStoreTest extends \PHPUnit_Framework_TestCase
     public function testSetAndGet($key, $value, $ttl)
     {
         $this->store->set($key, $value, $ttl);
-        $this->assertSame($value, $this->store->get($key));
+        $this->assertEquals($value, $this->store->get($key));
     }
 
     /**
@@ -22,7 +22,7 @@ abstract class AbstractStoreTest extends \PHPUnit_Framework_TestCase
     public function testAddAndGet($key, $value, $ttl)
     {
         $this->store->add($key, $value, $ttl);
-        $this->assertSame($value, $this->store->get($key));
+        $this->assertEquals($value, $this->store->get($key));
     }
 
     /**
@@ -33,7 +33,7 @@ abstract class AbstractStoreTest extends \PHPUnit_Framework_TestCase
         $this->store->set($key, $value, $ttl);
         $this->store->add($key, 'dummy (should be not set)', $ttl);
 
-        $this->assertSame($value, $this->store->get($key));
+        $this->assertEquals($value, $this->store->get($key));
     }
 
     /**
@@ -52,7 +52,9 @@ abstract class AbstractStoreTest extends \PHPUnit_Framework_TestCase
         return [
             ['messi', 'messiah10', 30],
             [str_repeat(sha1(mt_rand()), 10), 'messy argentino', 30], // long key (400 chars)
-            ['key', 'value', MemcachedStore::MAX_TTL + 3600] // big ttl
+            ['key', 'value', MemcachedStore::MAX_TTL + 3600], // big ttl
+            ['jugador1', [2 => 'di', 3 => 'maria'], 30], // compound value (array)
+            ['jugador2', new \StdClass(), 30], // compound value (object)
         ];
     }
 }

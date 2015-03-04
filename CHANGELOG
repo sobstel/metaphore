@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.2.2
+-----
+
+* Fixed: redis store does not handle compound values
+
 1.2.1
 -----
 

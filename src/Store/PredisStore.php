@@ -1,5 +1,4 @@
 <?php
-
 namespace Metaphore\Store;
 
 use Metaphore\Store\ValueStoreInterface;
@@ -17,12 +16,18 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
 
     public function set($key, $value, $ttl)
     {
-        return $this->predis->set($key, $value, "EX", $ttl);
+        return $this->predis->set($key, serialize($value), "EX", $ttl);
     }
 
     public function get($key)
     {
-        return $this->predis->get($key);
+        $value = $this->predis->get($key);
+
+        if ($value) {
+            $value = unserialize($value);
+        }
+
+        return $value;
     }
 
     public function delete($key)
@@ -32,6 +37,6 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
 
     public function add($key, $value, $ttl)
     {
-        return $this->predis->set($key, $value, "EX", $ttl, "NX");
+        return $this->predis->set($key, serialize($value), "EX", $ttl, "NX");
     }
 }

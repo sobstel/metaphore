@@ -7,6 +7,7 @@ use Predis\Client;
 /**
  * @group notisolated
  * @group redis
+ * @group php-predis
  */
 class PredisStoreTest extends AbstractStoreTest
 {

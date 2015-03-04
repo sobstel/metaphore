@@ -7,6 +7,7 @@ use Memcache;
 /**
  * @group notisolated
  * @group memcached
+ * @group php-memcache
  */
 class MemcacheStoreTest extends AbstractStoreTest
 {
