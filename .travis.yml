@@ -2,6 +2,7 @@ language: php
 php:
   - 5.5
   - 5.4
+  - hhvm
 before_script:
   - phpenv config-add .travis.php.ini
   - composer install
