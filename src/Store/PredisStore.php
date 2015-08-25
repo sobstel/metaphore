@@ -27,7 +27,7 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
             $value = unserialize($value);
         }
 
-        return $value;
+        return $value === null ? false : $value;
     }
 
     public function delete($key)
