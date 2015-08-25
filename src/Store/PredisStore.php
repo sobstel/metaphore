@@ -9,9 +9,9 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
 {
     protected $predis;
 
-    public function __construct(Client $predisInstance)
+    public function __construct(Client $predis)
     {
-        $this->predis = $predisInstance;
+        $this->predis = $predis;
     }
 
     public function set($key, $value, $ttl)
@@ -27,7 +27,7 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
             $value = unserialize($value);
         }
 
-        return $value === null ? false : $value;
+        return ($value === null ? false : $value);
     }
 
     public function delete($key)
