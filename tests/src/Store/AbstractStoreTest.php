@@ -47,6 +47,11 @@ abstract class AbstractStoreTest extends \PHPUnit_Framework_TestCase
         $this->assertEmpty($this->store->get($key));
     }
 
+    public function testGettingNotSetValue()
+    {
+        $this->assertFalse($this->store->get(microtime()));
+    }
+
     public function keyValuePairsProvider()
     {
         return [
