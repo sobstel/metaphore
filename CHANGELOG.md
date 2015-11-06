@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.2.4
+-----
+
+* Added: file store
+
 1.2.3
 -----
 
