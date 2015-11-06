@@ -3,7 +3,6 @@ namespace Metaphore\Store;
 
 use Metaphore\Store\ValueStoreInterface;
 use Metaphore\Store\LockStoreInterface;
-use Metaphore\Store\AbstractMemcachedStore;
 
 /**
  * Think again if you really truly want to use filesystem for caching any data ;-)
