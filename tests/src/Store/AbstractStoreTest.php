@@ -56,7 +56,7 @@ abstract class AbstractStoreTest extends \PHPUnit_Framework_TestCase
     {
         return [
             ['messi', 'messiah10', 30],
-            [str_repeat(sha1(mt_rand()), 10), 'messy argentino', 30], // long key (400 chars)
+            [str_repeat(sha1(mt_rand()), 5), 'messy argentino', 30], // long key (200 chars)
             ['key', 'value', MemcachedStore::MAX_TTL + 3600], // big ttl
             ['jugador1', [2 => 'di', 3 => 'maria'], 30], // compound value (array)
             ['jugador2', new \StdClass(), 30], // compound value (object)
