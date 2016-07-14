@@ -59,7 +59,7 @@ Value store vs lock store
 -------------------------
 
 Cache values and locks can be handled by different stores. At this moment there's just MemcachedStore, but it's
-possible - for example - to write and use external MySQL GET_LOCK/RELEASE_LOCK for locks and still us in-built
+possible - for example - to write and use external MySQL GET_LOCK/RELEASE_LOCK for locks and still use in-built
 Memcached store for storing values.
 
 ``` php
@@ -82,7 +82,7 @@ You can pass simple integer value...
 $cache->cache('key', callback, 30); // cache for 30 secs
 ```
 
-.. or use more advanced `Metaphore\TTl` object, which allows to have control over grace period and lock ttl.
+.. or use more advanced `Metaphore\TTl` object, which gives you control over grace period and lock ttl.
 
 ``` php
 // $ttl, $grace_ttl, $lock_ttl
@@ -93,9 +93,8 @@ $cache->cache('key', callback, $ttl);
 
 - `$ttl` - regular cache time (in seconds)
 - `$grace_ttl` - grace period, how long to allow to serve stale content while new one is being generated (in seconds),
-  similar to HTTP's stale-while-revalidate)
-  default is 60s
-- `$lock_ttl` - lock time, how long to prevent other request(s) to start generating same content, default is 5s
+   similar to HTTP's stale-while-revalidate, default is 60s
+- `$lock_ttl` - lock time, how long to prevent other request(s) from generating same content, default is 5s
 
 No stale cache
 --------------
