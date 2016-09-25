@@ -4,8 +4,8 @@ metaphore
 PHP cache slam defense using a semaphore to prevent dogpile effect (aka clobbering updates, stampending herd or
 Slashdot effect).
 
-**Problem**: too many requests hit your website at the same time and it tries to regenerate same content slamming 
-your database, especially after cached version expired.
+**Problem**: too many requests hit your website at the same time while it tries to regenerate same content slamming 
+your database, eg. when cache expired.
 
 **Solution:** first request generates new content while all the subsequent requests get (stale) content from cache
 until it's refreshed by the first request.
@@ -58,9 +58,7 @@ Public API (methods)
 Value store vs lock store
 -------------------------
 
-Cache values and locks can be handled by different stores. At this moment there's just MemcachedStore, but it's
-possible - for example - to write and use external MySQL GET_LOCK/RELEASE_LOCK for locks and still use in-built
-Memcached store for storing values.
+Cache values and locks can be handled by different stores. 
 
 ``` php
 $valueStore = new Metaphore\MemcachedStore($memcached);
@@ -72,6 +70,9 @@ $cache = new Metaphore\Cache($valueStore, $lockManager);
 ```
 
 By default - if no 2nd argument passed to Cache constructor - value store is used as a lock store.
+
+Sample use case might be to have custom MySQL GET_LOCK/RELEASE_LOCK for locks and still use in-built
+Memcached store for storing values.
 
 Time-to-live
 ------------
@@ -96,10 +97,12 @@ $cache->cache('key', callback, $ttl);
    similar to HTTP's stale-while-revalidate, default is 60s
 - `$lock_ttl` - lock time, how long to prevent other request(s) from generating same content, default is 5s
 
+Ttl value is added to current timestamp (`time() + $ttl`). 
+
 No stale cache
 --------------
 
-In rare situations, when cache gets expired and there's no stale (generated earier) content available, all requests
+In rare situations, when cache gets expired and there's no stale (generated earlier) content available, all requests
 will start generating new content.
 
 You can add listener to catch this:
