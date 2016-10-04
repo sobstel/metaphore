@@ -8,7 +8,7 @@ before_script:
   - phpenv config-add .travis.php.ini
   - composer install
   - composer require predis/predis
-script: phpunit --testdox
+script: phpunit --testdox --exclude-group=php-memcache
 services:
   - memcached
   - redis-server
