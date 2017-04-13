@@ -3,7 +3,7 @@ namespace Metaphore\Tests\Store;
 
 use Metaphore\Store\MemcachedStore;
 
-abstract class AbstractStoreTest extends \PHPUnit_Framework_TestCase
+abstract class AbstractStoreTest extends \PHPUnit\Framework\TestCase
 {
     protected $store;
 

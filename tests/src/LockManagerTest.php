@@ -4,7 +4,7 @@ namespace Metaphore\Tests;
 use Metaphore\LockManager;
 use Metaphore\Store\MockStore;
 
-class LockManagerTest extends \PHPUnit_Framework_TestCase
+class LockManagerTest extends \PHPUnit\Framework\TestCase
 {
     protected $lockManager;
 

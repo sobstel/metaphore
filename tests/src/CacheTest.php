@@ -6,7 +6,7 @@ use Metaphore\Ttl;
 use Metaphore\Store\MockStore;
 use Metaphore\NoStaleCacheEvent;
 
-class CacheTest extends \PHPUnit_Framework_TestCase
+class CacheTest extends \PHPUnit\Framework\TestCase
 {
     public function testCachesValue()
     {
