@@ -14,8 +14,7 @@ class FilePhpStore implements ValueStoreInterface, LockStoreInterface
      */
     protected $directory;
 
-    protected static $strDenyAccess =  '<?php return header("HTTP/1.0 404 Not Found"); ?>';
-    // protected static $strDenyAccessLegth;
+    protected static $strDenyAccess =  '<?php return header("HTTP/1.0 404 Not Found"); ?>'; //deny access from web-browser
 
     /**
      * @param string
@@ -27,7 +26,6 @@ class FilePhpStore implements ValueStoreInterface, LockStoreInterface
         }
 
         $this->directory = $directory;
-        // self::$strDenyAccessLegth = strlen(self::$strDenyAccess);
     }
 
     /**
