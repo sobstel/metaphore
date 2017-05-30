@@ -87,8 +87,17 @@ class FilePhpStore implements ValueStoreInterface, LockStoreInterface
         return true;
     }
 
+
     protected function getFileName($key)
     {
-        return $this->directory . DIRECTORY_SEPARATOR . $key . '.php';
+        return $this->directory . DIRECTORY_SEPARATOR . self::getHash($key) . '.php';
+    }
+
+    /**
+     * @param mixed $key 
+     * @return string
+     */
+    protected static function getHash($key) {
+        return hash('md5', $key);
     }
 }
