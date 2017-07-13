@@ -27,6 +27,8 @@ In composer.json file:
 }
 ```
 
+(or just `composer require sobstel/sesshin`)
+
 In your PHP file:
 
 ``` php
