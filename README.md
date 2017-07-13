@@ -16,8 +16,8 @@ for more details.
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sobstel/metaphore/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sobstel/metaphore/?branch=master)
 [![Build Status](https://travis-ci.org/sobstel/metaphore.svg?branch=master)](https://travis-ci.org/sobstel/metaphore)
 
-Usage
------
+Installation
+------------
 
 In composer.json file:
 
@@ -27,9 +27,10 @@ In composer.json file:
 }
 ```
 
-(or just `composer require sobstel/metaphore`)
+or just `composer require sobstel/metaphore`
 
-In your PHP file:
+Usage
+-----
 
 ``` php
 use Metaphore\Cache;
