@@ -27,7 +27,7 @@ In composer.json file:
 }
 ```
 
-(or just `composer require sobstel/sesshin`)
+(or just `composer require sobstel/metaphore`)
 
 In your PHP file:
 
