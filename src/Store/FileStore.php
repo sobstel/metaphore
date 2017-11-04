@@ -63,9 +63,7 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
      */
     public function add($key, $value, $ttl)
     {
-        $fileName = $this->getFileName($key);
-
-        if (file_exists($fileName)) {
+        if ($this->get($key) !== false) {
             return false;
         }
 
