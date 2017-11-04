@@ -32,7 +32,7 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
     public function set($key, $value, $ttl)
     {
         $fileName = $this->getFileName($key);
-        $data = $ttl.'|'.serialize($value);
+        $data = $this->prepareTtl($ttl).'|'.serialize($value);
 
         return file_put_contents($fileName, $data);
     }
