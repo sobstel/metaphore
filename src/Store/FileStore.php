@@ -8,7 +8,7 @@ use Metaphore\Store\LockStoreInterface;
  * Think again if you really truly want to use filesystem for caching any data ;-)
  */
 class FileStore implements ValueStoreInterface, LockStoreInterface
-{
+{   
     /**
      * @var string
      */
@@ -51,7 +51,7 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
         $data = file_get_contents($fileName);
         list($ttl, $serializedValue) = explode('|', $data, 2);
 
-        if ($ttl > time()) {
+        if ($ttl < time()) {
             return false;
         }
 
@@ -87,5 +87,10 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
     protected function getFileName($key)
     {
         return $this->directory.DIRECTORY_SEPARATOR.$key;
+    }
+
+    protected function prepareTtl($ttl)
+    {
+        return (time() + $ttl);
     }
 }
