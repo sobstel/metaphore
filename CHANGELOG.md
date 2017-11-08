@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.2.5
+-----
+
+* Fixed: file store deadlock issue (lchenay)
+
 1.2.4
 -----
 
