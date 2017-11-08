@@ -8,7 +8,7 @@ use Metaphore\Store\LockStoreInterface;
  * Think again if you really truly want to use filesystem for caching any data ;-)
  */
 class FileStore implements ValueStoreInterface, LockStoreInterface
-{
+{   
     /**
      * @var string
      */
@@ -32,7 +32,7 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
     public function set($key, $value, $ttl)
     {
         $fileName = $this->getFileName($key);
-        $data = $ttl.'|'.serialize($value);
+        $data = $this->prepareTtl($ttl).'|'.serialize($value);
 
         return file_put_contents($fileName, $data);
     }
@@ -51,7 +51,7 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
         $data = file_get_contents($fileName);
         list($ttl, $serializedValue) = explode('|', $data, 2);
 
-        if ($ttl > time()) {
+        if ($ttl < time()) {
             return false;
         }
 
@@ -63,9 +63,7 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
      */
     public function add($key, $value, $ttl)
     {
-        $fileName = $this->getFileName($key);
-
-        if (file_exists($fileName)) {
+        if ($this->get($key) !== false) {
             return false;
         }
 
@@ -89,5 +87,10 @@ class FileStore implements ValueStoreInterface, LockStoreInterface
     protected function getFileName($key)
     {
         return $this->directory.DIRECTORY_SEPARATOR.$key;
+    }
+
+    protected function prepareTtl($ttl)
+    {
+        return (time() + $ttl);
     }
 }
