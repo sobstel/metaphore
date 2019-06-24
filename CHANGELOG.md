@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+1.2.6
+-----
+
+* Added: allow to configure serializer for redis store (wojciechlukoszek)
+
 1.2.5
 -----
 
