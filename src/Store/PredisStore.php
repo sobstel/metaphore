@@ -1,6 +1,8 @@
 <?php
 namespace Metaphore\Store;
 
+use Metaphore\Serializer\NativeSerializer;
+use Metaphore\Serializer\SerializerInterface;
 use Metaphore\Store\ValueStoreInterface;
 use Metaphore\Store\LockStoreInterface;
 use Predis\Client;
@@ -8,15 +10,17 @@ use Predis\Client;
 class PredisStore implements ValueStoreInterface, LockStoreInterface
 {
     protected $predis;
+    protected $serializer;
 
-    public function __construct(Client $predis)
+    public function __construct(Client $predis, SerializerInterface $serializer = null)
     {
         $this->predis = $predis;
+        $this->serializer = $serializer ?: new NativeSerializer();
     }
 
     public function set($key, $value, $ttl)
     {
-        return $this->predis->set($key, serialize($value), "EX", $ttl);
+        return $this->predis->set($key, $this->serializer->serialize($value), "EX", $ttl);
     }
 
     public function get($key)
@@ -24,7 +28,7 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
         $value = $this->predis->get($key);
 
         if ($value) {
-            $value = unserialize($value);
+            $value = $this->serializer->unserialize($value);
         }
 
         return ($value === null ? false : $value);
@@ -37,6 +41,6 @@ class PredisStore implements ValueStoreInterface, LockStoreInterface
 
     public function add($key, $value, $ttl)
     {
-        return $this->predis->set($key, serialize($value), "EX", $ttl, "NX");
+        return $this->predis->set($key, $this->serializer->serialize($value), "EX", $ttl, "NX");
     }
 }
