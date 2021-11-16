@@ -1,7 +1,7 @@
 metaphore
 =========
 
-PHP cache slam defense using a semaphore to prevent dogpile effect (aka clobbering updates, stampending herd or
+PHP cache slam defense using a semaphore to prevent dogpile effect (aka clobbering updates, stampeding herd or
 Slashdot effect).
 
 **Problem**: too many requests hit your website at the same time while it tries to regenerate same content slamming 
