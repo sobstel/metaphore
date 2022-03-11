@@ -14,7 +14,6 @@ Read [http://www.sobstel.org/blog/preventing-dogpile-effect/](http://www.sobstel
 for more details.
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/sobstel/metaphore/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/sobstel/metaphore/?branch=master)
-[![Build Status](https://travis-ci.org/sobstel/metaphore.svg?branch=master)](https://travis-ci.org/sobstel/metaphore)
 
 Installation
 ------------
