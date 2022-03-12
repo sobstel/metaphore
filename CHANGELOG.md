@@ -1,9 +1,10 @@
 CHANGELOG
 =========
 
-1.3.0
+1.3.0 (not released yet)
 -----
 
+* (?) anything else??? ;-)
 * Changed: PHP 7.4+ required now (dropped support for 5.x though it might still work)
 * Fixed: unit tests for PHP 7.4+
 
