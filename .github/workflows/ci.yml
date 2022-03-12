@@ -3,9 +3,12 @@
  on: [push]
 
  jobs:
-   build-test:
-     runs-on: ubuntu-latest
+   #   test-latest:
+   #  name: "Test latest"
 
+   test-74:
+     name: "Test 7.4"
+     runs-on: ubuntu-latest
      steps:
      - uses: niden/actions-memcached@v7
      - uses: supercharge/redis-github-action@1.4.0
@@ -16,6 +19,9 @@
          configuration: ./phpunit.xml
          php_extensions: memcache memcached
          php_version: 7.4
-         version: 9.4
+      - uses: php-actions/phpunit@v3
+       with:
+         configuration: ./phpunit.xml
+         php_extensions: memcache memcached
          
            
