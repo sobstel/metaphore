@@ -12,5 +12,7 @@
      - uses: php-actions/phpunit@v3
        with:
          configuration: ./phpunit.xml
-         version: 5.7.27
+         php_version: 7.4
+         version: 9.4
+         
            
