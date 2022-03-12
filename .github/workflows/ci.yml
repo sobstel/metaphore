@@ -10,3 +10,7 @@
      - uses: actions/checkout@v2
      - uses: php-actions/composer@v5
      - uses: php-actions/phpunit@v3
+       with:
+         configuration: ./phpunit.xml
+         version: 5.7.27
+           
