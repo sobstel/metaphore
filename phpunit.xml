@@ -1,12 +1,7 @@
 <phpunit bootstrap="tests/bootstrap.php" colors="true">
     <testsuites>
-        <testsuite>
+        <testsuite name="src">
             <directory>tests/src</directory>
         </testsuite>
     </testsuites>
-    <filter>
-        <blacklist>
-            <directory>./vendor</directory>
-        </blacklist>
-    </filter>
 </phpunit>

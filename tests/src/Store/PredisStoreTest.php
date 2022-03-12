@@ -11,13 +11,13 @@ use Predis\Client;
  */
 class PredisStoreTest extends AbstractStoreTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $client = new Client();
         $this->store = new PredisStore($client);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->store = null;
     }

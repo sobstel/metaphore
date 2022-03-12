@@ -12,9 +12,11 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0"
+        "php": ">=5.4.0",
+        "predis/predis": "v1.1.x-dev"
     },
     "suggest": {
+        "ext-memcached": "Required for MemcachedStore",
         "predis/predis": "Required for PredisStore"
     },
     "autoload": {

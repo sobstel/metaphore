@@ -11,7 +11,7 @@ use Memcached;
  */
 class MemcachedStoreTest extends AbstractStoreTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $client = new Memcached;
         $client->addServer('127.0.0.1', 11211);
@@ -19,7 +19,7 @@ class MemcachedStoreTest extends AbstractStoreTest
         $this->store = new MemcachedStore($client);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->store = null;
     }

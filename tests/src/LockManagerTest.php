@@ -8,12 +8,12 @@ class LockManagerTest extends \PHPUnit\Framework\TestCase
 {
     protected $lockManager;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->lockManager = new LockManager(new MockStore);
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->lockManager = null;
     }
