@@ -5,12 +5,12 @@ use Metaphore\Store\MockStore;
 
 class MockStoreTest extends AbstractStoreTest
 {
-    public function setUp()
+    public function setUp(): void
     {
         $this->store = new MockStore();
     }
 
-    public function tearDown()
+    public function tearDown(): void
     {
         $this->store = null;
     }
