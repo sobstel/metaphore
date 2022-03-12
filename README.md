@@ -22,11 +22,13 @@ In composer.json file:
 
 ```
 "require": {
-  "sobstel/metaphore": "1.2.*"
+  "sobstel/metaphore": "1.3.*"
 }
 ```
 
 or just `composer require sobstel/metaphore`
+
+NOTE! 1.3 requires PHP 7.4+ (if you need to use it with old PHP, stick with 1.2)
 
 Usage
 -----
