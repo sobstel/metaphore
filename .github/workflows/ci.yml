@@ -3,10 +3,7 @@
  on: [push]
 
  jobs:
-   #   test-latest:
-   #  name: "Test latest"
-
-   test_74:
+   test74:
      name: "Test 7.4"
      runs-on: ubuntu-latest
      steps:
