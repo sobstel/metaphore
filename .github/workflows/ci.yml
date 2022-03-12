@@ -6,7 +6,7 @@
    #   test-latest:
    #  name: "Test latest"
 
-   test-74:
+   test_74:
      name: "Test 7.4"
      runs-on: ubuntu-latest
      steps:
