@@ -8,6 +8,7 @@
 
      steps:
      - uses: niden/actions-memcached@v7
+     - uses: supercharge/redis-github-action@1.4.0
      - uses: actions/checkout@v2
      - uses: php-actions/composer@v5
      - uses: php-actions/phpunit@v3
