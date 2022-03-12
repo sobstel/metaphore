@@ -16,6 +16,7 @@
         "predis/predis": "v1.1.x-dev"
     },
     "suggest": {
+        "ext-memcache": "Required for MemcacheStore",
         "ext-memcached": "Required for MemcachedStore",
         "predis/predis": "Required for PredisStore"
     },
