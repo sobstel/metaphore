@@ -1,6 +1,11 @@
 CHANGELOG
 =========
 
+2.0.1
+-----
+
+* Fixed: PHP 8.2+ requirement in composer.json file.
+
 2.0.0
 -----
 
