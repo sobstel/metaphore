@@ -117,7 +117,7 @@ class CacheTest extends \PHPUnit\Framework\TestCase
     {
         return $this->getMockBuilder('Metaphore\LockManager')
             ->setConstructorArgs([new MockStore])
-            ->setMethods(['acquire', 'release'])
+            ->onlyMethods(['acquire', 'release'])
             ->getMock();
     }
 

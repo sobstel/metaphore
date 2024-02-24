@@ -23,7 +23,7 @@ In composer.json file:
 
 ```
 "require": {
-  "sobstel/metaphore": "1.3.*"
+  "sobstel/metaphore": "2.0.*"
 }
 ```
 

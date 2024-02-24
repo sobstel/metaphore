@@ -1,7 +1,7 @@
 CHANGELOG
 =========
 
-1.3.0
+2.0.0
 -----
 
 * Changed: PHP 7.4+ required now (dropped support for 5.x though it might still work)
