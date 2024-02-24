@@ -13,7 +13,7 @@
     ],
     "require": {
         "php": ">=7.4.0",
-        "predis/predis": "v1.1.x-dev"
+        "predis/predis": ">=2.0.0"
     },
     "suggest": {
         "ext-memcache": "Required for MemcacheStore",

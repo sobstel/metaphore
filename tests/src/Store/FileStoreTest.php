@@ -3,7 +3,7 @@ namespace Metaphore\Tests\Store;
 
 use Metaphore\Store\FileStore;
 
-class FileStoreTest extends AbstractStoreTest
+class FileStoreTest extends AbstractStoreTestCase
 {
     public function setUp(): void
     {

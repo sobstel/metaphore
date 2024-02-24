@@ -9,7 +9,7 @@ use Memcache;
  * @group memcached
  * @group php-memcache
  */
-class MemcacheStoreTest extends AbstractStoreTest
+class MemcacheStoreTest extends AbstractStoreTestCase
 {
     public function setUp(): void
     {

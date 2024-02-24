@@ -9,7 +9,7 @@ use Predis\Client;
  * @group redis
  * @group php-predis
  */
-class PredisStoreTest extends AbstractStoreTest
+class PredisStoreTest extends AbstractStoreTestCase
 {
     public function setUp(): void
     {
