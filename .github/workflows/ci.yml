@@ -10,6 +10,8 @@ jobs:
       - uses: supercharge/redis-github-action@1.4.0
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v5
+        with:
+          php-version: 8.2
       - name: phpunit (php 8.2)
         uses: php-actions/phpunit@v3
         with:
