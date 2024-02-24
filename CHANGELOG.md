@@ -4,7 +4,7 @@ CHANGELOG
 2.0.0
 -----
 
-* Changed: PHP 7.4+ required now (dropped support for 5.x though it might still work)
+* Changed: PHP 8.2+ required now (dropped support for 5.x/7.x though it might still work)
 * Changed: bumped predis dependency to 2.0+
 * Fixed: unit tests for PHP 7.4+
 
