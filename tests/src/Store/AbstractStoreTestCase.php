@@ -52,7 +52,7 @@ abstract class AbstractStoreTestCase extends \PHPUnit\Framework\TestCase
         $this->assertFalse($this->store->get(microtime()));
     }
 
-    public function keyValuePairsProvider()
+    static public function keyValuePairsProvider()
     {
         return [
             ['messi', 'messiah10', 30],
