@@ -4,7 +4,7 @@ metaphore
 PHP cache slam defense using a semaphore to prevent dogpile effect (aka clobbering updates, stampeding herd or
 Slashdot effect).
 
-**Problem**: too many requests hit your website at the same time while it tries to regenerate same content slamming 
+**Problem**: too many requests hit your website at the same time while it tries to regenerate same content slamming
 your database, eg. when cache expired.
 
 **Solution:** first request generates new content while all the subsequent requests get (stale) content from cache
@@ -23,7 +23,7 @@ In composer.json file:
 
 ```
 "require": {
-  "sobstel/metaphore": "1.2.*"
+  "sobstel/metaphore": "1.3.*"
 }
 ```
 
@@ -61,7 +61,7 @@ Public API (methods)
 Value store vs lock store
 -------------------------
 
-Cache values and locks can be handled by different stores. 
+Cache values and locks can be handled by different stores.
 
 ``` php
 $valueStore = new Metaphore\MemcachedStore($memcached);
@@ -100,7 +100,7 @@ $cache->cache('key', callback, $ttl);
    similar to HTTP's stale-while-revalidate, default is 60s
 - `$lock_ttl` - lock time, how long to prevent other request(s) from generating same content, default is 5s
 
-Ttl value is added to current timestamp (`time() + $ttl`). 
+Ttl value is added to current timestamp (`time() + $ttl`).
 
 No stale cache
 --------------

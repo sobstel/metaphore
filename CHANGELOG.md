@@ -1,11 +1,11 @@
 CHANGELOG
 =========
 
-1.3.0 (not released yet)
+1.3.0
 -----
 
-* (?) anything else??? ;-)
 * Changed: PHP 7.4+ required now (dropped support for 5.x though it might still work)
+* Changed: bumped predis dependency to 2.0+
 * Fixed: unit tests for PHP 7.4+
 
 1.2.6
@@ -26,7 +26,7 @@ CHANGELOG
 1.2.3
 -----
 
-* Fixed: redis: detecting non-existing value (null) (romannowicki) 
+* Fixed: redis: detecting non-existing value (null) (romannowicki)
 
 1.2.2
 -----
