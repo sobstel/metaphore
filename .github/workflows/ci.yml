@@ -10,11 +10,6 @@ jobs:
       - uses: supercharge/redis-github-action@1.4.0
       - uses: actions/checkout@v2
       - uses: php-actions/composer@v5
-      - name: phpunit (php latest)
-        uses: php-actions/phpunit@v3
-        with:
-          configuration: ./phpunit.xml
-          php_extensions: memcache memcached
       - name: phpunit (php 7.4)
         uses: php-actions/phpunit@v3
         with:
@@ -45,3 +40,9 @@ jobs:
           configuration: ./phpunit.xml
           php_extensions: memcache memcached
           php_version: 8.3
+      - name: phpunit (php latest)
+        uses: php-actions/phpunit@v3
+        with:
+          configuration: ./phpunit.xml
+          php_extensions: memcache memcached
+          php_version: latest

@@ -26,8 +26,8 @@ class CacheTest extends \PHPUnit\Framework\TestCase
         $key = "masche14";
 
         $lockManagerMock = $this->createLockManagerMock();
-        $lockManagerMock->method('acquire')->with($this->equalTo($key))->will($this->returnValue(true));
-        $lockManagerMock->method('release')->with($this->equalTo($key))->will($this->returnValue(true));
+        $lockManagerMock->method('acquire')->with($this->equalTo($key))->willReturn(true);
+        $lockManagerMock->method('release')->with($this->equalTo($key))->willReturn(true);
 
         $cache = new Cache(new MockStore, $lockManagerMock);
 
